@@ -1,0 +1,45 @@
+spring:
+  profiles:
+    active: cloud
+---
+spring:
+  profiles: cloud
+  jpa:
+    database: MYSQL
+    hibernate:
+      ddl-auto: create
+application:
+  name: service-broker
+cloudfoundry:
+  apiEndpoint: http://api.bosh-lite.com    # Location of the CloudFoundry REST API endpoint to use.
+  domain: bosh-lite.com                    # The domain to use when mapping routes for applications.
+  organization: kbastani                   # The organization to use when registering new applications.
+  password: admin                          # Password to use to authenticate against the Cloud Foundry API.
+  services: scheduler-db                   # The names of services to bind to each application deployed as a module.
+  skipSslValidation: true                  # Allow operation using self-signed certificates.
+  space: ${vcap.application.space_name:development}   # The space to use when registering new applications.
+  username: admin                          # Username to use to authenticate against the Cloud Foundry API.
+
+management:
+  contextPath: /management
+security:
+  basic:
+    enabled: true
+---
+spring:
+  profiles: test
+  jpa:
+    database: H2
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: "jdbc:h2:mem:db"
+cloudfoundry:
+  apiEndpoint: http://api.bosh-lite.com    # Location of the CloudFoundry REST API endpoint to use.
+  domain: bosh-lite.com                    # The domain to use when mapping routes for applications.
+  organization: kbastani                   # The organization to use when registering new applications.
+  password: admin                          # Password to use to authenticate against the Cloud Foundry API.
+  services: scheduler-db                   # The names of services to bind to each application deployed as a module.
+  skipSslValidation: true                  # Allow operation using self-signed certificates.
+  space: ${vcap.application.space_name:development}   # The space to use when registering new applications.
+  username: admin                          # Username to use to authenticate against the Cloud Foundry API.
